@@ -28,32 +28,35 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SplashScreen(navController: NavController) {
-    val scope = rememberCoroutineScope()
-
     LaunchedEffect(Unit) {
-        scope.launch {
-            delay(5000)
-            navController.navigate(NavDest.HOME)
+        delay(2000)
+        navController.navigate(NavDest.LOGIN) {
+            popUpTo(NavDest.SPLASH_SCREEN) { inclusive = true }
         }
     }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(AntiFlashWhite),
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(
+                        MaterialTheme.colorScheme.primary,
+                        MaterialTheme.colorScheme.secondary
+                    )
+                )
+            ),
+        contentAlignment = Alignment.Center
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-
-            Image(
-                painter = painterResource(R.drawable.food_logo),
-                contentDescription = "",
-                alignment = Alignment.BottomEnd
+            androidx.compose.material3.Text(
+                text = "My Notes",
+                style = MaterialTheme.typography.displayLarge,
+                color = Color.White
             )
         }
-
     }
 }
 
