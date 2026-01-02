@@ -16,7 +16,9 @@ class AddEditNoteViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val noteId: Int? = savedStateHandle.get<String>("noteId")?.toIntOrNull()
+    private val noteId: Int? = savedStateHandle.get<String>("noteId")?.toIntOrNull()?.let {
+        if (it <= 0) null else it
+    }
 
     private val _title = MutableStateFlow("")
     val title: StateFlow<String> = _title.asStateFlow()
@@ -65,17 +67,29 @@ class AddEditNoteViewModel @Inject constructor(
 
             _isSaving.value = true
 
-            val note = NoteEntity(
-                id = noteId ?: 0,
-                title = _title.value.trim(),
-                content = _content.value.trim(),
-                color = _color.value,
-                updatedAt = System.currentTimeMillis()
-            )
+            try {
+                val note = NoteEntity(
+                    id = noteId ?: 0,
+                    title = _title.value.trim(),
+                    content = _content.value.trim(),
+                    color = _color.value,
+                    updatedAt = System.currentTimeMillis()
+                )
 
-            repository.insertNote(note)
-            _isSaving.value = false
-            onSaved()
+                if (noteId != null && noteId > 0) {
+                    // Update existing note
+                    repository.updateNote(note)
+                } else {
+                    // Insert new note
+                    repository.insertNote(note)
+                }
+                
+                _isSaving.value = false
+                onSaved()
+            } catch (e: Exception) {
+                _isSaving.value = false
+                // Handle error if needed
+            }
         }
     }
 }
