@@ -11,9 +11,7 @@ plugins {
 
 android {
     namespace = "com.example.myapplication"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.myapplication"
@@ -87,12 +85,14 @@ dependencies {
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:34.7.0"))
 
-    // TODO: Add the dependencies for Firebase products you want to use
-    // When using the BoM, don't specify versions in Firebase dependencies
+    // Firebase Authentication
+    implementation("com.google.firebase:firebase-auth")
+    
+    // Firestore Database
+    implementation("com.google.firebase:firebase-firestore")
+    
+    // Firebase Analytics
     implementation("com.google.firebase:firebase-analytics")
-
-    // Add the dependencies for any other desired Firebase products
-    // https://firebase.google.com/docs/android/setup#available-libraries
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

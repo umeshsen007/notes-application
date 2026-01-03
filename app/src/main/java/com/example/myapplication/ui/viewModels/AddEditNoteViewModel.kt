@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.local.entity.NoteEntity
+import com.example.myapplication.data.repository.AuthRepository
 import com.example.myapplication.data.repository.NotesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -13,6 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEditNoteViewModel @Inject constructor(
     private val repository: NotesRepository,
+    private val authRepository: AuthRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -68,10 +70,12 @@ class AddEditNoteViewModel @Inject constructor(
             _isSaving.value = true
 
             try {
+                val userId = authRepository.getCurrentUserId() ?: ""
                 val note = NoteEntity(
                     id = noteId ?: 0,
                     title = _title.value.trim(),
                     content = _content.value.trim(),
+                    userId = userId,
                     color = _color.value,
                     updatedAt = System.currentTimeMillis()
                 )

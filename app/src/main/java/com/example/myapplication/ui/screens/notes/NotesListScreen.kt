@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.screens.notes
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -31,11 +34,18 @@ import java.util.*
 @Composable
 fun NotesListScreen(
     navController: NavController,
-    viewModel: NotesViewModel = hiltViewModel()
+    viewModel: NotesViewModel = hiltViewModel(),
+    authViewModel: com.example.myapplication.ui.viewmodels.AuthViewModel = hiltViewModel()
 ) {
     val notes by viewModel.notes.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     var showMenu by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    // Handle back press to close the app instead of navigating back to login
+    BackHandler {
+        (context as? Activity)?.finish()
+    }
 
     Scaffold(
         topBar = {
@@ -53,6 +63,7 @@ fun NotesListScreen(
                             text = { Text("Logout") },
                             onClick = {
                                 showMenu = false
+                                authViewModel.signOut()
                                 navController.navigate(NavDest.LOGIN) {
                                     popUpTo(0) { inclusive = true }
                                 }
