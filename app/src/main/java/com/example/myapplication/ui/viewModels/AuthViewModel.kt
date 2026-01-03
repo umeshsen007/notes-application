@@ -103,4 +103,8 @@ class AuthViewModel @Inject constructor(
     fun getCurrentUserId(): String? {
         return authRepository.getCurrentUserId()
     }
+
+    fun isUserLoggedIn(): Boolean {
+        return authRepository.isUserLoggedIn()
+    }
 }
