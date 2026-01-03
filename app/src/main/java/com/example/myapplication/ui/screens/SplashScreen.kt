@@ -18,7 +18,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.navigation.NavDest
 import com.example.myapplication.ui.theme.MyApplicationTheme
-import com.example.myapplication.ui.viewModels.AuthViewModel
+import com.example.myapplication.ui.viewmodels.AuthViewModel
 import kotlinx.coroutines.delay
 
 @Composable
