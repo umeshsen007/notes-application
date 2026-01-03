@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.runtime.saveable)
+    implementation(libs.androidx.material3)
 
     val nav_version = "2.9.6"
     val room_version = "2.6.1"

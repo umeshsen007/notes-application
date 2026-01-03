@@ -21,8 +21,7 @@ class AuthRepository @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ) {
 
-    val currentUser: FirebaseUser?
-        get() = firebaseAuth.currentUser
+    val currentUser: FirebaseUser? = firebaseAuth.currentUser
 
     fun getCurrentUserId(): String? = currentUser?.uid
 
@@ -46,7 +45,7 @@ class AuthRepository @Inject constructor(
         return try {
             val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             val firebaseUser = result.user
-            
+
             if (firebaseUser != null) {
                 // Update display name
                 val profileUpdates = UserProfileChangeRequest.Builder()
@@ -72,7 +71,7 @@ class AuthRepository @Inject constructor(
         return try {
             val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
             val firebaseUser = result.user
-            
+
             if (firebaseUser != null) {
                 val user = User(
                     uid = firebaseUser.uid,
